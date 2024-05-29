@@ -1,3 +1,4 @@
+const { FORBIDDEN } = require('http-status');
 const { i18nService } = require('../config');
 
 const authMessage = () => {
@@ -7,6 +8,9 @@ const authMessage = () => {
     REGISTER_SUCCESS: i18nService.translate('auth', 'registerSuccess'),
     REFRESH_TOKEN_SUCCESS: i18nService.translate('auth', 'refreshTokenSuccess'),
     INVALID_TOKEN: i18nService.translate('auth', 'invalidToken'),
+    UNAUTHORIZED: i18nService.translate('auth', 'unauthorized'),
+    FORBIDDEN: i18nService.translate('auth', 'forbidden'),
+    ACCOUNT_LOCKED: i18nService.translate('auth', 'accountLocked'),
   };
 };
 

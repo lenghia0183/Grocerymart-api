@@ -35,8 +35,6 @@ const register = async (fullname, email, password) => {
   return { user, accessToken, refreshToken };
 };
 
-
-
 const refreshToken = async (refreshToken) => {
   let payload;
   try {
@@ -60,9 +58,9 @@ const refreshToken = async (refreshToken) => {
 
 const generateToken = (type, payload) => {
   const secret = type === 'access' ? env.jwt.secretAccess : env.jwt.secretRefresh;
-  logger.info(secret);
+
   const expiresIn = type === 'access' ? env.jwt.expiresAccessToken : env.jwt.expiresRefreshToken;
-  logger.info(expiresIn);
+
   const token = jwt.sign({ ...payload, type }, secret, {
     expiresIn,
   });

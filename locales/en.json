@@ -26,6 +26,9 @@
     "loginSuccess": "Login successfully",
     "registerSuccess": "Register successfully",
     "refreshTokenSuccess": "Refresh token successfully",
-    "invalidToken": "Invalid token"
+    "invalidToken": "Invalid token",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "accountLocked": "Your account has been locked"
   }
 }

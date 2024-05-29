@@ -27,9 +27,9 @@ const createUser = async (userBody) => {
   return user;
 };
 
-const getUsersByKeyword = async (requestQuery) => {
+const getUsersByKeyword = async (query) => {
   const apiFeature = new ApiFeature(User);
-  const { results, ...detailResult } = await apiFeature.getResult(query, ['fullname', 'email', 'phone']);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['fullname', 'email', 'phone']);
   return { users: results, ...detailResult };
 };
 
