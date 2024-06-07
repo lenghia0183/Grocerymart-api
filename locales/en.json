@@ -38,20 +38,23 @@
     "findListSuccess": "Product list retrieved successfully",
     "findSuccess": "Product found successfully",
     "updateSuccess": "Product updated successfully",
-    "deleteSuccess": "Product deleted successfully"
+    "deleteSuccess": "Product deleted successfully",
+    "notFound": "Product not found"
   },
   "category": {
     "createSuccess": "Category created successfully",
     "findListSuccess": "Category list retrieved successfully",
     "findSuccess": "Category found successfully",
     "updateSuccess": "Category updated successfully",
-    "deleteSuccess": "Category deleted successfully"
+    "deleteSuccess": "Category deleted successfully",
+    "notFound": "Category not found"
   },
   "manufacturer": {
     "createSuccess": "manufacturer created successfully",
     "findListSuccess": "manufacturer list retrieved successfully",
     "findSuccess": "manufacturer found successfully",
     "updateSuccess": "manufacturer updated successfully",
-    "deleteSuccess": "manufacturer deleted successfully"
+    "deleteSuccess": "manufacturer deleted successfully",
+    "notFound": "manufacturer not found"
   }
 }

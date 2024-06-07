@@ -7,6 +7,7 @@ const categoryMessage = () => {
     FIND_SUCCESS: i18nService.translate('category', 'findSuccess'),
     UPDATE_SUCCESS: i18nService.translate('category', 'updateSuccess'),
     DELETE_SUCCESS: i18nService.translate('category', 'deleteSuccess'),
+    NOT_FOUND: i18nService.translate('category', 'notFound'),
   };
 };
 

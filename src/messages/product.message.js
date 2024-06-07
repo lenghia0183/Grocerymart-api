@@ -7,6 +7,7 @@ const productMessage = () => {
     FIND_SUCCESS: i18nService.translate('product', 'findSuccess'),
     UPDATE_SUCCESS: i18nService.translate('product', 'updateSuccess'),
     DELETE_SUCCESS: i18nService.translate('product', 'deleteSuccess'),
+    NOT_FOUND: i18nService.translate('product', 'notFound'),
   };
 };
 

@@ -7,6 +7,7 @@ const manufacturerMessage = () => {
     FIND_SUCCESS: i18nService.translate('manufacturer', 'findSuccess'),
     UPDATE_SUCCESS: i18nService.translate('manufacturer', 'updateSuccess'),
     DELETE_SUCCESS: i18nService.translate('manufacturer', 'deleteSuccess'),
+    NOT_FOUND: i18nService.translate('manufacturer', 'notFound'),
   };
 };
 

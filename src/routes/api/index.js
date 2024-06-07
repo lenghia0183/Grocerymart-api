@@ -15,6 +15,10 @@ const listRoutesApi = [
     path: '/product',
     route: require('./product.route'),
   },
+  {
+    path: '/category',
+    route: require('./category.route'),
+  },
 ];
 
 listRoutesApi.forEach((route) => {
