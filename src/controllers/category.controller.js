@@ -22,8 +22,14 @@ const updateCategory = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, categoryMessage().UPDATE_SUCCESS, category));
 });
 
+const getCategories = catchAsync(async (req, res) => {
+  const categories = await categoryService.getCategoriesByKeyword(req.query);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, categoryMessage().FIND_LIST_SUCCESS, categories));
+});
+
 module.exports = {
   createCategory,
   deleteCategory,
   updateCategory,
+  getCategories,
 };

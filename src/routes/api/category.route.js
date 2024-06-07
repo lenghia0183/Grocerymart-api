@@ -32,4 +32,6 @@ categoryRouter.put(
   categoryController.updateCategory,
 );
 
+categoryRouter.get('/', validate(categoryValidation.getCategories), categoryController.getCategories);
+
 module.exports = categoryRouter;

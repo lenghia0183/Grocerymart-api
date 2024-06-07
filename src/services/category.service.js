@@ -31,8 +31,15 @@ const updateCategoryById = async (categoryId, updateBody) => {
   return category;
 };
 
+const getCategoriesByKeyword = async (query) => {
+  const apiFeature = new ApiFeature(Category);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['name']);
+  return { categories: results, ...detailResult };
+};
+
 module.exports = {
   createCategory,
   deleteCategoryById,
   updateCategoryById,
+  getCategoriesByKeyword,
 };
