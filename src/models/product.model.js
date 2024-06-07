@@ -1,5 +1,20 @@
 const mongoose = require('mongoose');
 
+const priceSchema = new mongoose.Schema(
+  {
+    weight: {
+      type: String,
+      enum: ['100g', '500g', '1kg'],
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+  },
+  { _id: false },
+);
+
 const productSchema = new mongoose.Schema(
   {
     name: {
@@ -7,15 +22,10 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     images: [String],
-    price: {
-      type: Map,
-      of: Number,
-      required: true,
-    },
+    prices: [priceSchema],
     weight: {
       type: String,
       enum: ['100g', '500g', '1kg'],
-      required: true,
     },
     manufacturerId: {
       type: mongoose.Schema.Types.ObjectId,

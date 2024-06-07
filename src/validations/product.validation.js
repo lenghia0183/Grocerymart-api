@@ -1,14 +1,19 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
+const priceSchema = Joi.object({
+  weight: Joi.string().valid('100g', '500g', '1kg'),
+  price: Joi.number().required(),
+});
+
 const createProduct = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    price: Joi.object().pattern(Joi.string(), Joi.number()).required(),
+    prices: Joi.array().items(priceSchema).required(),
     description: Joi.string().allow(null, ''),
-    images: Joi.array().items(Joi.string()),
-    categoryId: Joi.string().custom(objectId),
-    manufacturerId: Joi.string().custom(objectId),
+    images: Joi.array().items(Joi.string()).allow(null, ''),
+    categoryId: Joi.string().custom(objectId).required(),
+    manufacturerId: Joi.string().custom(objectId).required(),
   }),
 };
 

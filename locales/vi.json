@@ -32,5 +32,12 @@
     "unauthorized": "Bạn chưa đăng nhập",
     "forbidden": "Bạn không có quyền truy cập",
     "accountLocked": "Tài khoản của bạn đã bị khóa"
+  },
+  "product": {
+    "createSuccess": "Tạo sản phẩm mới thành công",
+    "findListSuccess": "Lấy danh sách sản phẩm thành công",
+    "findSuccess": "Tìm kiếm sản phẩm thành công",
+    "updateSuccess": "Cập nhật sản phẩm thành công",
+    "deleteSuccess": "Xóa sản phẩm thành công"
   }
 }

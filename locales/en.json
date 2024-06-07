@@ -32,5 +32,12 @@
     "unauthorized": "Unauthorized",
     "forbidden": "Forbidden",
     "accountLocked": "Your account has been locked"
+  },
+  "product": {
+    "createSuccess": "Product created successfully",
+    "findListSuccess": "Product list retrieved successfully",
+    "findSuccess": "Product found successfully",
+    "updateSuccess": "Product updated successfully",
+    "deleteSuccess": "Product deleted successfully"
   }
 }
