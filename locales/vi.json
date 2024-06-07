@@ -39,5 +39,19 @@
     "findSuccess": "Tìm kiếm sản phẩm thành công",
     "updateSuccess": "Cập nhật sản phẩm thành công",
     "deleteSuccess": "Xóa sản phẩm thành công"
+  },
+  "category": {
+    "createSuccess": "Tạo thể loại mới thành công",
+    "findListSuccess": "Lấy danh sách thể loại thành công",
+    "findSuccess": "Tìm kiếm thể loại thành công",
+    "updateSuccess": "Cập nhật thể loại thành công",
+    "deleteSuccess": "Xóa thể loại thành công"
+  },
+  "manufacturer": {
+    "createSuccess": "Tạo thương hiệu mới thành công",
+    "findListSuccess": "Lấy danh sách thương hiệu thành công",
+    "findSuccess": "Tìm kiếm thương hiệu thành công",
+    "updateSuccess": "Cập nhật thương hiệu thành công",
+    "deleteSuccess": "Xóa thương hiệu thành công"
   }
 }

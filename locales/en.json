@@ -39,5 +39,19 @@
     "findSuccess": "Product found successfully",
     "updateSuccess": "Product updated successfully",
     "deleteSuccess": "Product deleted successfully"
+  },
+  "category": {
+    "createSuccess": "Category created successfully",
+    "findListSuccess": "Category list retrieved successfully",
+    "findSuccess": "Category found successfully",
+    "updateSuccess": "Category updated successfully",
+    "deleteSuccess": "Category deleted successfully"
+  },
+  "manufacturer": {
+    "createSuccess": "manufacturer created successfully",
+    "findListSuccess": "manufacturer list retrieved successfully",
+    "findSuccess": "manufacturer found successfully",
+    "updateSuccess": "manufacturer updated successfully",
+    "deleteSuccess": "manufacturer deleted successfully"
   }
 }
