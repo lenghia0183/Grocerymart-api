@@ -1,6 +1,8 @@
 {
   "system": {
-    "resourceNotFound": "Resource not found"
+    "resourceNotFound": "Resource not found",
+    "imageTypeInvalid": "Image format not supported",
+    "imageMaxSize": "Image size too large, please choose another one"
   },
   "user": {
     "notFound": "User not found",

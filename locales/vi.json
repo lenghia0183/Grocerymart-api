@@ -1,6 +1,8 @@
 {
   "system": {
-    "resourceNotFound": "Không tìm thấy tài nguyên"
+    "resourceNotFound": "Không tìm thấy tài nguyên",
+    "imageTypeInvalid": "Định dạng hình ảnh không hỗ trợ",
+    "imageMaxSize": "Hình ảnh có dung lượng quá lớn, vui lòng chọn lại"
   },
   "user": {
     "notFound": "Không tìm thấy người dùng",

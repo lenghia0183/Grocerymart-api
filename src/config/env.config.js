@@ -15,6 +15,18 @@ const env = {
     secretRefresh: process.env.JWT_SECRET_REFRESH || 'secret-refresh',
     expiresRefreshToken: process.env.JWT_EXPIRES_REFRESH_MINUTES + 'm' || '1000m',
   },
+
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
+  },
+
+  image: {
+    folderName: 'grocery-mart',
+    typeAllow: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
+    maxFileSize: (process.env.MAX_FILE_SIZE_IMAGE_MB || 3) * 1024 * 1024,
+  },
 };
- 
+
 module.exports = env;
