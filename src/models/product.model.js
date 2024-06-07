@@ -17,12 +17,12 @@ const productSchema = new mongoose.Schema(
       enum: ['100g', '500g', '1kg'],
       required: true,
     },
-    manufacturer: {
+    manufacturerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Manufacturer',
       required: true,
     },
-    category: {
+    categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
       required: true,
