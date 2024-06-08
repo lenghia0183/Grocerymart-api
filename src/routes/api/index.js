@@ -23,6 +23,10 @@ const listRoutesApi = [
     path: '/manufacturer',
     route: require('./manufacturer.route'),
   },
+  {
+    path: '/address',
+    route: require('./address.route'),
+  },
 ];
 
 listRoutesApi.forEach((route) => {

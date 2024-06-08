@@ -3,29 +3,56 @@ const { objectId } = require('./custom.validation');
 
 const createAddress = {
   body: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    name: Joi.string().required(),
+    phone: Joi.string().required(),
     street: Joi.string().required(),
-    city: Joi.string().required(),
-    district: Joi.string().required(),
-    ward: Joi.string().required(),
+    province: Joi.object()
+      .keys({
+        provinceName: Joi.string().required(),
+        provinceId: Joi.number().required(),
+      })
+      .required(),
+    district: Joi.object()
+      .keys({
+        districtName: Joi.string().required(),
+        districtId: Joi.number().required(),
+      })
+      .required(),
+    ward: Joi.object()
+      .keys({
+        wardName: Joi.string().required(),
+        wardId: Joi.number().required(),
+      })
+      .required(),
   }),
 };
 
 const updateAddress = {
   params: Joi.object().keys({
-    addressId: Joi.string().custom(objectId),
+    addressId: Joi.string().custom(objectId).required(),
   }),
   body: Joi.object().keys({
-    street: Joi.string().required(),
-    city: Joi.string().required(),
-    district: Joi.string().required(),
-    ward: Joi.string().required(),
+    name: Joi.string(),
+    phone: Joi.string(),
+    street: Joi.string(),
+    province: Joi.object().keys({
+      provinceName: Joi.string().required(),
+      provinceId: Joi.number().required(),
+    }),
+    district: Joi.object().keys({
+      districtName: Joi.string().required(),
+      districtId: Joi.number().required(),
+    }),
+    ward: Joi.object().keys({
+      wardName: Joi.string().required(),
+      wardId: Joi.number().required(),
+    }),
   }),
 };
 
 const getAddresses = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    userId: Joi.string().custom(objectId).required(),
   }),
 };
 

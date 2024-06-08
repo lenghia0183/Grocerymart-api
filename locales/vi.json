@@ -56,5 +56,13 @@
     "updateSuccess": "Cập nhật thương hiệu thành công",
     "deleteSuccess": "Xóa thương hiệu thành công",
     "notFound": "Không tìm thấy thương hiệu"
+  },
+  "address": {
+    "createSuccess": "Tạo địa chỉ mới thành công",
+    "findListSuccess": "Lấy danh sách địa chỉ thành công",
+    "findSuccess": "Tìm kiếm địa chỉ thành công",
+    "updateSuccess": "Cập nhật địa chỉ thành công",
+    "deleteSuccess": "Xóa địa chỉ thành công",
+    "notFound": "Không tìm thấy địa chỉ"
   }
 }

@@ -4,3 +4,4 @@ module.exports.uploadService = require('./upload.service');
 module.exports.productService = require('./product.service');
 module.exports.categoryService = require('./category.service');
 module.exports.manufacturerService = require('./manufacturer.service');
+module.exports.addressService = require('./address.service');
