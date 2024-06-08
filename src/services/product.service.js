@@ -35,6 +35,13 @@ const deleteProductById = async (productId) => {
   return product;
 };
 
+const updateProductById = async (productId, updateBody) => {
+  const product = await getProductById(productId);
+  Object.assign(product, updateBody);
+  await product.save();
+  return product;
+};
+
 const getProductByKeyWord = async (requestQuery) => {
   const {
     limit = 10,
@@ -135,4 +142,5 @@ module.exports = {
   getProductByKeyWord,
   getProductById,
   deleteProductById,
+  updateProductById,
 };

@@ -27,4 +27,11 @@ productRouter.delete(
   productController.deleteProduct,
 );
 
+productRouter.put(
+  '/:productId',
+  authenticate,
+  uploadService.uploadImage.array('images', 5),
+  productController.updateProduct,
+);
+
 module.exports = productRouter;

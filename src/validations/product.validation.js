@@ -43,10 +43,10 @@ const updateProduct = {
     productId: Joi.string().custom(objectId),
   }),
   body: Joi.object().keys({
-    name: Joi.string(),
-    price: Joi.object().pattern(Joi.string(), Joi.number()),
+    name: Joi.string().required(),
+    prices: Joi.array().items(priceSchema),
     description: Joi.string().allow(null, ''),
-    images: Joi.array().items(Joi.string()),
+    images: Joi.array().items(Joi.string()).allow(null, ''),
     categoryId: Joi.string().custom(objectId),
     manufacturerId: Joi.string().custom(objectId),
   }),
