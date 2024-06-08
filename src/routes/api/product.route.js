@@ -17,4 +17,6 @@ productRouter.post(
 
 productRouter.get('/', validate(productValidation.getProducts), productController.getProducts);
 
+productRouter.get('/:productId', validate(productValidation.getProduct), productController.getProduct);
+
 module.exports = productRouter;

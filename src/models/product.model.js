@@ -37,7 +37,10 @@ const productSchema = new mongoose.Schema(
       ref: 'Category',
       required: true,
     },
-    description: String,
+    description: {
+      type: String,
+      default: '',
+    },
     ratings: {
       type: Number,
       default: 0,

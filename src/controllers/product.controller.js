@@ -17,7 +17,13 @@ const getProducts = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_LIST_SUCCESS, products));
 });
 
+const getProduct = catchAsync(async (req, res) => {
+  const product = await productService.getProductById(req.params.productId);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_SUCCESS, product));
+});
+
 module.exports = {
   createProduct,
   getProducts,
+  getProduct,
 };

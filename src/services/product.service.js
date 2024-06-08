@@ -10,12 +10,31 @@ const createProduct = async (productBody) => {
   return product;
 };
 
+const getProductById = async (productId) => {
+  const product = await Product.findById(productId)
+    .select('-createdAt -updatedAt')
+    .populate([
+      {
+        path: 'manufacturerId',
+        select: 'name',
+      },
+      {
+        path: 'categoryId',
+        select: 'name',
+      },
+    ]);
+  if (!product) {
+    throw new ApiError(httpStatus.NOT_FOUND, productMessage().NOT_FOUND);
+  }
+  return product;
+};
+
 const getProductByKeyWord = async (requestQuery) => {
   const {
     limit = 10,
     page = 1,
     keyword = '',
-    sortBy = 'createdAt',
+    sortBy = 'createdAt:desc',
     manufacturerId,
     categoryId,
     minPrice,
@@ -81,7 +100,15 @@ const getProductByKeyWord = async (requestQuery) => {
     ])
     .skip(skip)
     .limit(limit)
-    .sort(sortObject);
+    .sort(sortObject)
+    .lean();
+
+  products.forEach((product) => {
+    if (product.images) {
+      product['image'] = product.images[0] || '';
+    }
+    delete product.images;
+  });
 
   const totalSearch = await Product.countDocuments(query);
 
@@ -100,4 +127,5 @@ const getProductByKeyWord = async (requestQuery) => {
 module.exports = {
   createProduct,
   getProductByKeyWord,
+  getProductById,
 };
