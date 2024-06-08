@@ -19,4 +19,12 @@ productRouter.get('/', validate(productValidation.getProducts), productControlle
 
 productRouter.get('/:productId', validate(productValidation.getProduct), productController.getProduct);
 
+productRouter.delete(
+  '/:productId',
+  authenticate,
+  authorize('admin'),
+  validate(productValidation.deleteProduct),
+  productController.deleteProduct,
+);
+
 module.exports = productRouter;

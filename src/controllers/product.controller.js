@@ -22,8 +22,14 @@ const getProduct = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_SUCCESS, product));
 });
 
+const deleteProduct = catchAsync(async (req, res) => {
+  const product = await productService.deleteProductById(req.params.productId);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().DELETE_SUCCESS, product));
+});
+
 module.exports = {
   createProduct,
   getProducts,
   getProduct,
+  deleteProduct,
 };

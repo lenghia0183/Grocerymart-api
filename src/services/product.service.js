@@ -1,7 +1,7 @@
 const { Product } = require('../models');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
-const { userMessage } = require('../messages');
+const { productMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
 const env = require('../config/env.config');
 
@@ -26,6 +26,12 @@ const getProductById = async (productId) => {
   if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, productMessage().NOT_FOUND);
   }
+  return product;
+};
+
+const deleteProductById = async (productId) => {
+  const product = await getProductById(productId);
+  await product.deleteOne();
   return product;
 };
 
@@ -128,4 +134,5 @@ module.exports = {
   createProduct,
   getProductByKeyWord,
   getProductById,
+  deleteProductById,
 };
