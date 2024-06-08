@@ -15,4 +15,6 @@ productRouter.post(
   productController.createProduct,
 );
 
+productRouter.get('/', validate(productValidation.getProducts), productController.getProducts);
+
 module.exports = productRouter;

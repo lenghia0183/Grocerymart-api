@@ -23,6 +23,11 @@ const getProducts = {
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
+    minPrice: Joi.number().integer(),
+    maxPrice: Joi.number().integer(),
+    categoryId: Joi.string().custom(objectId),
+    manufacturerId: Joi.string().custom(objectId),
+    minRating: Joi.number().integer().min(0).max(5),
     lang: Joi.string(),
   }),
 };
