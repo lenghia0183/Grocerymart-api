@@ -18,8 +18,9 @@ const getCartByUserId = async (queryRequest, userId) => {
   let cartDetails = await CartDetail.find({ _id: { $in: cart.cartDetails } })
     .populate('productId')
     .skip(skip)
-    .limit(limit);
-
+    .limit(limit)
+    .sort({ createdAt: -1 });
+  // add selectedPrice to cartDetails
   cartDetails = cartDetails.map((detail) => {
     const selectedPrice = detail.productId.prices.find((price) => price.weight === detail.selectedWeight).price;
     return {
