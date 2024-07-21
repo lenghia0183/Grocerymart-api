@@ -9,4 +9,17 @@ const cartRouter = express.Router();
 cartRouter.post('/', authenticate, validate(cartValidation.addProductToCart), cartController.addProductToCart);
 cartRouter.get('/me', authenticate, validate(cartValidation.getMyCart), cartController.getMyCart);
 cartRouter.delete('/me', authenticate, validate(cartValidation.clearMyCart), cartController.clearMyCart);
-module.exports = cartRouter;
+cartRouter.delete(
+  '/me/:cartDetailId',
+  authenticate,
+  validate(cartValidation.deleteCartDetail),
+  cartController.deleteCartDetail,
+);
+
+cartRouter.put(
+  '/me/:cartDetailId',
+  authenticate,
+  validate(cartValidation.updateCartDetail),
+  cartController.updateCartDetail,
+),
+  (module.exports = cartRouter);

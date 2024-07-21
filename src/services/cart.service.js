@@ -3,6 +3,7 @@ const { productService } = require('.');
 const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const { cartMessage } = require('../messages');
+const cartDetailModel = require('../models/cart-detail.model');
 
 const getCartByUserId = async (queryRequest, userId) => {
   const { limit = 10, page = 1 } = queryRequest;
@@ -21,7 +22,9 @@ const getCartByUserId = async (queryRequest, userId) => {
     .limit(limit)
     .sort({ createdAt: -1 });
   // add selectedPrice to cartDetails
+  let cartTotalMoney = 0;
   cartDetails = cartDetails.map((detail) => {
+    cartTotalMoney += detail.totalMoney;
     const selectedPrice = detail.productId.prices.find((price) => price.weight === detail.selectedWeight).price;
     return {
       ...detail.toObject(),
@@ -37,7 +40,7 @@ const getCartByUserId = async (queryRequest, userId) => {
     currentResult: cartDetails.length,
   };
 
-  const results = { cartDetails, cartTotal: cart.totalMoney, ...detailResults };
+  const results = { cartDetails, cartTotalMoney, ...detailResults };
   return results;
 };
 
@@ -102,10 +105,61 @@ const clearMyCart = async (userId) => {
   }
 };
 
+const deleteCartDetail = async (cartDetailId) => {
+  const cartDetail = await CartDetail.findOneAndDelete({ _id: cartDetailId });
+  if (!cartDetail) {
+    throw new ApiError(httpStatus.NOT_FOUND, cartMessage().NOT_FOUND);
+  }
+};
 
+const updateCartDetail = async (cartDetailId, updateBody) => {
+  const { quantity, selectedWeight } = updateBody;
+  const cartDetail = await CartDetail.findOne({ _id: cartDetailId }).populate({
+    path: 'productId',
+  });
+  if (!cartDetail) {
+    throw new ApiError(httpStatus.NOT_FOUND, cartMessage().NOT_FOUND);
+  }
+
+  const selectedPrice = cartDetail.productId.prices.find((priceOpt) => {
+    return priceOpt.weight === (selectedWeight || cartDetail.selectedWeight);
+  })?.price;
+  const totalMoney = (quantity || cartDetail.quantity) * (selectedPrice || cartDetail.selectedPrice);
+
+  const existingSameCartDetail = await CartDetail.findOne({
+    productId: cartDetail.productId._id,
+    selectedWeight: selectedWeight,
+    _id: { $ne: cartDetailId },
+  }).populate({
+    path: 'productId',
+  });
+
+  if (existingSameCartDetail) {
+    existingSameCartDetail.quantity += quantity || cartDetail.quantity;
+    existingSameCartDetail.totalMoney =
+      existingSameCartDetail.quantity * (selectedPrice || existingSameCartDetail.selectedPrice);
+
+    await existingSameCartDetail.save();
+
+    await CartDetail.deleteOne({ _id: cartDetailId });
+
+    return existingSameCartDetail;
+  }
+
+  cartDetail.set({
+    quantity: quantity || cartDetail.quantity,
+    selectedWeight: selectedWeight || cartDetail.selectedWeight,
+    totalMoney: totalMoney,
+  });
+  cartDetail.save();
+
+  return cartDetail;
+};
 
 module.exports = {
   addProductToCart,
   getCartByUserId,
+  deleteCartDetail,
   clearMyCart,
+  updateCartDetail,
 };

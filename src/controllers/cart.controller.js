@@ -24,8 +24,20 @@ const clearMyCart = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.NO_CONTENT, cartMessage().CLEAR_CART_SUCCESS));
 });
 
+const deleteCartDetail = catchAsync(async (req, res) => {
+  await cartService.deleteCartDetail(req.params.cartDetailId);
+  res.status(httpStatus.OK).json(response(httpStatus.NO_CONTENT, cartMessage().DELETE_SUCCESS));
+});
+
+const updateCartDetail = catchAsync(async (req, res) => {
+  const cartDetail = await cartService.updateCartDetail(req.params.cartDetailId, req.body);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().UPDATE_SUCCESS, cartDetail));
+});
+
 module.exports = {
   addProductToCart,
   getMyCart,
   clearMyCart,
+  deleteCartDetail,
+  updateCartDetail,
 };
