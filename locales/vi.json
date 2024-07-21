@@ -68,6 +68,7 @@
   "cart": {
     "addToCartSuccess": "Thêm sản phẩm vào giỏ hàng thành công",
     "findListSuccess": "Lấy giỏ thành công",
+    "clearCartSuccess": "Xóa tất cả sản phẩm trong giỏ hàng thành công",
     "findSuccess": "Tìm kiếm thương hiệu thành công",
     "updateSuccess": "Cập nhật giỏ hàng thành công",
     "deleteSuccess": "Xóa giỏ hàng thành công",

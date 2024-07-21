@@ -95,7 +95,17 @@ const addProductToCart = async (cartBody, userId) => {
   await cart.save();
 };
 
+const clearMyCart = async (userId) => {
+  const cart = await Cart.findOneAndDelete({ userId });
+  if (cart) {
+    await CartDetail.deleteMany({ _id: { $in: cart.cartDetails } });
+  }
+};
+
+
+
 module.exports = {
   addProductToCart,
   getCartByUserId,
+  clearMyCart,
 };

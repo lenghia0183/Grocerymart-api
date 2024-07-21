@@ -9,20 +9,11 @@ const addProductToCart = {
   }),
 };
 
-const getCarts = {
+const getMyCart = {
   query: Joi.object().keys({
-    keyword: Joi.string(),
-    sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     lang: Joi.string(),
-  }),
-};
-
-const getCart = {
-  params: Joi.object().keys({
-    cartId: Joi.string().custom(objectId),
-    userId: Joi.string().custom(objectId),
   }),
 };
 
@@ -39,16 +30,13 @@ const updateCart = {
     .min(1),
 };
 
-const deleteCart = {
-  params: Joi.object().keys({
-    cartId: Joi.string().custom(objectId),
-  }),
+const clearMyCart = {
+  params: Joi.object().keys({}),
 };
 
 module.exports = {
   addProductToCart,
-  getCarts,
-  getCart,
+  getMyCart,
   updateCart,
-  deleteCart,
+  clearMyCart,
 };

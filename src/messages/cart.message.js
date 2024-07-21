@@ -3,6 +3,7 @@ const { i18nService } = require('../config');
 const cartMessage = () => {
   return {
     ADD_TO_CART_SUCCESS: i18nService.translate('cart', 'addToCartSuccess'),
+    CLEAR_CART_SUCCESS: i18nService.translate('cart', 'clearCartSuccess'),
     FIND_LIST_SUCCESS: i18nService.translate('cart', 'findSuccess'),
     FIND_SUCCESS: i18nService.translate('cart', 'findSuccess'),
     UPDATE_SUCCESS: i18nService.translate('cart', 'updateSuccess'),

@@ -18,7 +18,14 @@ const getMyCart = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().FIND_LIST_SUCCESS, cart));
 });
 
+const clearMyCart = catchAsync(async (req, res) => {
+  const userId = req[REQUEST_USER_KEY].id;
+  await cartService.clearMyCart(userId);
+  res.status(httpStatus.OK).json(response(httpStatus.NO_CONTENT, cartMessage().CLEAR_CART_SUCCESS));
+});
+
 module.exports = {
   addProductToCart,
   getMyCart,
+  clearMyCart,
 };
