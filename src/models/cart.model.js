@@ -7,11 +7,13 @@ const cartSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    cartDetailId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'CartDetail',
-      required: true,
-    },
+    cartDetails: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CartDetail',
+        required: true,
+      },
+    ],
     totalMoney: {
       type: Number,
       required: true,

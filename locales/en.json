@@ -64,5 +64,13 @@
     "updateSuccess": "address updated successfully",
     "deleteSuccess": "address deleted successfully",
     "notFound": "address not found"
+  },
+  "cart": {
+    "createSuccess": "manufacturer created successfully",
+    "findListSuccess": "manufacturer list retrieved successfully",
+    "findSuccess": "manufacturer found successfully",
+    "updateSuccess": "manufacturer updated successfully",
+    "deleteSuccess": "manufacturer deleted successfully",
+    "notFound": "manufacturer not found"
   }
 }

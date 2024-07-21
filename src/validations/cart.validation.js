@@ -1,11 +1,11 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
-const createCart = {
+const addProductToCart = {
   body: Joi.object().keys({
-    cartDetailId: Joi.array().allow(null, ''),
-    userId: Joi.string().custom(objectId),
-    totalMoney: Joi.number().allow(null, ''),
+    quantity: Joi.number().integer().min(1),
+    productId: Joi.string().custom(objectId).required(),
+    selectedWeight: Joi.string().valid('100g', '500g', '1kg'),
   }),
 };
 
@@ -16,10 +16,6 @@ const getCarts = {
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     lang: Joi.string(),
-    cartDetailId: Joi.array().allow(null, ''),
-    userId: Joi.string().custom(objectId),
-    isOrder: Joi.boolean().allow(null, ''),
-    totalMoney: Joi.number().allow(null, ''),
   }),
 };
 
@@ -50,7 +46,7 @@ const deleteCart = {
 };
 
 module.exports = {
-  createCart,
+  addProductToCart,
   getCarts,
   getCart,
   updateCart,

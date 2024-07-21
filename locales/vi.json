@@ -64,5 +64,14 @@
     "updateSuccess": "Cập nhật địa chỉ thành công",
     "deleteSuccess": "Xóa địa chỉ thành công",
     "notFound": "Không tìm thấy địa chỉ"
+  },
+  "cart": {
+    "addToCartSuccess": "Thêm sản phẩm vào giỏ hàng thành công",
+    "findListSuccess": "Lấy giỏ thành công",
+    "findSuccess": "Tìm kiếm thương hiệu thành công",
+    "updateSuccess": "Cập nhật giỏ hàng thành công",
+    "deleteSuccess": "Xóa giỏ hàng thành công",
+    "notFound": "Không tìm thấy thương hiệu",
+    "maxQuantity": "Số lượng sản phẩm không được vượt quá 100"
   }
 }

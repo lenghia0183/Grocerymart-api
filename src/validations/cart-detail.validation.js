@@ -5,6 +5,7 @@ const createCartDetail = {
   body: Joi.object().keys({
     productId: Joi.string().custom(objectId),
     quantity: Joi.number().required(),
+    selectedWeight: Joi.string().required(),
   }),
 };
 
