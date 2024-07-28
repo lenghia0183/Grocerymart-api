@@ -82,5 +82,14 @@
     "findSuccess": "Tìm kiếm sản phẩm yêu thích thành công",
     "clearSuccess": "Xóa tất danh sách yêu thích thành công",
     "notFound": "Không tìm thấy sản phẩm yêu thích của bạn"
+  },
+  "comment": {
+    "createSuccess": "Thêm bình luận mới thành công",
+    "findListSuccess": "Lấy danh sách bình luận thành công",
+    "findSuccess": "Tìm kiếm bình luận thành công",
+    "updateSuccess": "Cập nhật bình luận thành công",
+    "deleteSuccess": "Xóa bình luận thành công",
+    "notFound": "Không tìm thấy bình luận",
+    "forbiddenUpdate": "Bạn không có quyền sửa bình luận này"
   }
 }

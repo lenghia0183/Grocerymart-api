@@ -7,3 +7,4 @@ module.exports.manufacturerService = require('./manufacturer.service');
 module.exports.addressService = require('./address.service');
 module.exports.cartService = require('./cart.service');
 module.exports.favoriteService = require('./favorite.service');
+module.exports.commentService = require('./comment.service');

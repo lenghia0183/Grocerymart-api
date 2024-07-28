@@ -35,6 +35,10 @@ const listRoutesApi = [
     path: '/favorite',
     route: require('./favorite.route'),
   },
+  {
+    path: '/comment',
+    route: require('./comment.route'),
+  },
 ];
 
 listRoutesApi.forEach((route) => {
