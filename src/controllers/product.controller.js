@@ -3,6 +3,7 @@ const response = require('../utils/response');
 const catchAsync = require('../utils/catchAsync');
 const { productService } = require('../services');
 const { productMessage } = require('../messages');
+const { REQUEST_USER_KEY } = require('../constants');
 
 const createProduct = catchAsync(async (req, res) => {
   if (req.files) {
@@ -13,12 +14,15 @@ const createProduct = catchAsync(async (req, res) => {
 });
 
 const getProducts = catchAsync(async (req, res) => {
-  const products = await productService.getProductByKeyWord(req.query);
+  const userId = req[REQUEST_USER_KEY]?._id;
+  const products = await productService.getProductByKeyWord(userId, req.query);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_LIST_SUCCESS, products));
 });
 
 const getProduct = catchAsync(async (req, res) => {
-  const product = await productService.getProductById(req.params.productId);
+  const userId = req[REQUEST_USER_KEY]?._id;
+  const product = await productService.getProductById(userId, req.params.productId);
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_SUCCESS, product));
 });
 

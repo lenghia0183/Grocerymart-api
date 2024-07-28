@@ -73,4 +73,5 @@ const extractToken = (req) => {
 module.exports = {
   authenticate,
   authorize,
+  flexibleAuth,
 };

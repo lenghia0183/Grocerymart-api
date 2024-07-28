@@ -2,13 +2,14 @@ const { Product } = require('../models');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { productMessage } = require('../messages');
+const { getFavoriteListByUserId } = require('./favorite.service');
 
 const createProduct = async (productBody) => {
   const product = await Product.create(productBody);
   return product;
 };
 
-const getProductById = async (productId) => {
+const getProductById = async (userId, productId) => {
   const product = await Product.findById(productId)
     .select('-createdAt -updatedAt')
     .populate([
@@ -20,10 +21,23 @@ const getProductById = async (productId) => {
         path: 'categoryId',
         select: 'name',
       },
-    ]);
+    ])
+    .lean();
   if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, productMessage().NOT_FOUND);
   }
+
+  if (userId) {
+    const favoriteList = await getFavoriteListByUserId(userId);
+
+    for (let i = 0; i < favoriteList.productId.length; i++) {
+      if (favoriteList.productId[i]._id.toString() === productId) {
+        product.isFavorite = true;
+        break;
+      }
+    }
+  }
+
   return product;
 };
 
@@ -40,7 +54,7 @@ const updateProductById = async (productId, updateBody) => {
   return product;
 };
 
-const getProductByKeyWord = async (requestQuery) => {
+const getProductByKeyWord = async (userId, requestQuery) => {
   const {
     limit = 10,
     page = 1,
@@ -113,6 +127,13 @@ const getProductByKeyWord = async (requestQuery) => {
     .limit(limit)
     .sort(sortObject)
     .lean();
+
+  if (userId) {
+    const favorites = await getFavoriteListByUserId(userId);
+    products.forEach((product) => {
+      product.isFavorite = favorites.productId.some((item) => item._id.toString() === product._id.toString());
+    });
+  }
 
   products.forEach((product) => {
     if (product.images) {
