@@ -74,5 +74,13 @@
     "deleteSuccess": "Xóa sản phẩm khỏi giỏ hàng thành công",
     "notFound": "Không tìm thấy sản phẩm trong giỏ hàng của bạn",
     "maxQuantity": "Số lượng sản phẩm không được vượt quá 100"
+  },
+  "favorite": {
+    "addToListSuccess": "Thêm sản phẩm vào danh sách yêu thích thành công",
+    "deleteSuccess": "Xóa sản phẩm khỏi danh sách yêu thích thành công",
+    "findListSuccess": "Lấy danh sách sản phẩm yêu thích thành công",
+    "findSuccess": "Tìm kiếm sản phẩm yêu thích thành công",
+    "clearSuccess": "Xóa tất danh sách yêu thích thành công",
+    "notFound": "Không tìm thấy sản phẩm yêu thích của bạn"
   }
 }

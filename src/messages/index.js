@@ -6,3 +6,4 @@ module.exports.categoryMessage = require('./category.message');
 module.exports.manufacturerMessage = require('./manufacturer.message');
 module.exports.addressMessage = require('./address.message');
 module.exports.cartMessage = require('./cart.message');
+module.exports.favoriteMessage = require('./favorite.message');

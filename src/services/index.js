@@ -6,3 +6,4 @@ module.exports.categoryService = require('./category.service');
 module.exports.manufacturerService = require('./manufacturer.service');
 module.exports.addressService = require('./address.service');
 module.exports.cartService = require('./cart.service');
+module.exports.favoriteService = require('./favorite.service');
