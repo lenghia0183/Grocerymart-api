@@ -8,6 +8,12 @@ const login = {
   }),
 };
 
+const socialLogin = {
+  body: Joi.object().keys({
+    idToken: Joi.string().required(),
+  }),
+};
+
 const register = {
   body: Joi.object().keys({
     email: Joi.string().custom(email),
@@ -26,4 +32,5 @@ module.exports = {
   login,
   register,
   refreshToken,
+  socialLogin,
 };

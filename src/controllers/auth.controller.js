@@ -12,6 +12,14 @@ const login = catchAsync(async (req, res) => {
     .json(response(httpStatus.OK, authMessage().LOGIN_SUCCESS, { user, accessToken, refreshToken }));
 });
 
+const socialLogin = catchAsync(async (req, res) => {
+  const { idToken } = req.body;
+  const { user, accessToken, refreshToken } = await authService.socialLogin(idToken);
+  res
+    .status(httpStatus.OK)
+    .json(response(httpStatus.OK, authMessage().LOGIN_SUCCESS, { user, accessToken, refreshToken }));
+});
+
 const register = catchAsync(async (req, res) => {
   const { fullname, email, password } = req.body;
   const { user, accessToken, refreshToken } = await authService.register(fullname, email, password);
@@ -30,4 +38,5 @@ module.exports = {
   login,
   register,
   refreshToken,
+  socialLogin,
 };

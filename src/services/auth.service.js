@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const { admin } = require('./../firebase.config');
+
 const { env } = require('../config');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
@@ -32,6 +34,45 @@ const register = async (fullname, email, password) => {
   const user = await userService.createUser(registerData);
   const accessToken = generateToken('access', { id: user.id, email, role: user.role });
   const refreshToken = generateToken('refresh', { id: user.id });
+  return { user, accessToken, refreshToken };
+};
+
+const socialLogin = async (idToken) => {
+  let decodedToken;
+  try {
+    decodedToken = await admin.auth().verifyIdToken(idToken);
+  } catch (error) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_TOKEN);
+  }
+
+  const { email, uid, name, picture } = decodedToken;
+  let user = await userService.getUserByEmail(email);
+  if (!user?.fireBaseId) {
+    throw new ApiError(httpStatus.BAD_REQUEST, userMessage().EXISTS_EMAIL);
+  }
+  if (!user) {
+    user = await userService.createUser({
+      fullname: name || '',
+      avatar: picture,
+      email,
+      fireBaseId: uid,
+      password: null,
+      isLocked: false,
+    });
+  }
+
+  if (user.isLocked) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, userMessage().USER_LOCKED);
+  }
+
+  const accessToken = generateToken('access', { id: user.id, email: user.email, role: user.role });
+  const refreshToken = generateToken('refresh', { id: user.id });
+
+  user.lastActive = Date.now();
+  await user.save();
+
+  user.password = undefined;
+
   return { user, accessToken, refreshToken };
 };
 
@@ -71,4 +112,5 @@ module.exports = {
   login,
   register,
   refreshToken,
+  socialLogin,
 };

@@ -17,8 +17,15 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       select: false,
-      required: true,
+      required: function () {
+        return !this.fireBaseId;
+      },
     },
+    fireBaseId: {
+      type: String,
+      trim: true,
+    },
+
     phone: {
       type: String,
       trim: true,
@@ -64,7 +71,7 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
 
 userSchema.pre('save', async function (next) {
   const user = this;
-  if (user.isModified('password')) {
+  if (user.isModified('password') && user.password) {
     user.password = await bcrypt.hash(user.password, 8);
   }
   next();
