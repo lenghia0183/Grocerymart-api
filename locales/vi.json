@@ -91,5 +91,11 @@
     "deleteSuccess": "Xóa bình luận thành công",
     "notFound": "Không tìm thấy bình luận",
     "forbiddenUpdate": "Bạn không có quyền sửa bình luận này"
+  },
+  "order": {
+    "createSuccess": "Tạo đơn hàng mới thành công",
+    "findListSuccess": "Lấy danh sách đơn hàng thành công",
+    "updateSuccess": "Cập nhật đơn hàng thành công",
+    "notFound": "Không tìm thấy đơn hàng"
   }
 }

@@ -3,13 +3,12 @@ const { productService } = require('.');
 const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const { cartMessage } = require('../messages');
-const cartDetailModel = require('../models/cart-detail.model');
 
 const getCartByUserId = async (queryRequest, userId) => {
   const { limit = 10, page = 1 } = queryRequest;
   const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
 
-  const cart = await Cart.findOne({ userId });
+  const cart = await Cart.findOne({ userId, status: 'active' });
 
   if (!cart) {
     return;
@@ -21,16 +20,8 @@ const getCartByUserId = async (queryRequest, userId) => {
     .skip(skip)
     .limit(limit)
     .sort({ createdAt: -1 });
-  // add selectedPrice to cartDetails
-  let cartTotalMoney = 0;
-  cartDetails = cartDetails.map((detail) => {
-    cartTotalMoney += detail.totalMoney;
-    const selectedPrice = detail.productId.prices.find((price) => price.weight === detail.selectedWeight).price;
-    return {
-      ...detail.toObject(),
-      selectedPrice,
-    };
-  });
+
+  let cartTotalMoney = cart?.totalMoney;
 
   const detailResults = {
     limit: +limit,
@@ -44,15 +35,31 @@ const getCartByUserId = async (queryRequest, userId) => {
   return results;
 };
 
+const getCartById = async (cartId) => {
+  const cart = await Cart.findById(cartId).populate([
+    {
+      path: 'cartDetails',
+      populate: {
+        path: 'productId',
+      },
+    },
+  ]);
+  if (!cart) {
+    throw new ApiError(httpStatus.NOT_FOUND, cartMessage().NOT_FOUND);
+  }
+  return cart;
+};
+
 const addProductToCart = async (cartBody, userId) => {
   const { productId, quantity = 1, selectedWeight } = cartBody;
 
   const product = await productService.getProductById(productId);
+
   const selectedPrice = product.prices.find((priceOpt) => {
     return priceOpt.weight === selectedWeight;
   }).price;
 
-  const cart = await Cart.findOne({ userId }).populate([
+  const cart = await Cart.findOne({ userId, status: 'active' }).populate([
     {
       path: 'cartDetails',
       populate: {
@@ -68,7 +75,12 @@ const addProductToCart = async (cartBody, userId) => {
       selectedWeight,
       totalMoney: quantity * selectedPrice,
     });
-    await Cart.create({ userId, cartDetails: [newCartDetail._id], totalMoney: newCartDetail.totalMoney });
+    await Cart.create({
+      userId,
+      status: 'active',
+      cartDetails: [newCartDetail._id],
+      totalMoney: newCartDetail.totalMoney,
+    });
     return;
   }
 
@@ -83,7 +95,7 @@ const addProductToCart = async (cartBody, userId) => {
   if (cartDetail) {
     cartDetail.quantity += quantity;
     cartDetail.totalMoney += quantity * selectedPrice;
-    cart.totalMoney += cartDetail?.totalMoney;
+    cart.totalMoney += quantity * selectedPrice;
     await cartDetail.save();
   } else {
     const newCartDetail = await CartDetail.create({
@@ -103,17 +115,20 @@ const clearMyCart = async (userId) => {
   if (cart) {
     await CartDetail.deleteMany({ _id: { $in: cart.cartDetails } });
   }
+  cart.totalMoney = 0;
+  await cart.save();
 };
 
-const deleteCartDetail = async (cartDetailId) => {
+const deleteCartDetail = async (cartDetailId, cartId) => {
   const cartDetail = await CartDetail.findOneAndDelete({ _id: cartDetailId });
   if (!cartDetail) {
     throw new ApiError(httpStatus.NOT_FOUND, cartMessage().NOT_FOUND);
   }
+  await Cart.recalculateTotalMoney(cartId);
 };
 
 const updateCartDetail = async (cartDetailId, updateBody) => {
-  const { quantity, selectedWeight } = updateBody;
+  const { quantity, selectedWeight, cartId } = updateBody;
   const cartDetail = await CartDetail.findOne({ _id: cartDetailId }).populate({
     path: 'productId',
   });
@@ -152,6 +167,7 @@ const updateCartDetail = async (cartDetailId, updateBody) => {
     totalMoney: totalMoney,
   });
   cartDetail.save();
+  await Cart.recalculateTotalMoney(cartId);
 
   return cartDetail;
 };
@@ -162,4 +178,5 @@ module.exports = {
   deleteCartDetail,
   clearMyCart,
   updateCartDetail,
+  getCartById,
 };

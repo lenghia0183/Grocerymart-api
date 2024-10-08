@@ -8,3 +8,5 @@ module.exports.addressService = require('./address.service');
 module.exports.cartService = require('./cart.service');
 module.exports.favoriteService = require('./favorite.service');
 module.exports.commentService = require('./comment.service');
+module.exports.orderService = require('./order.service');
+module.exports.paymentService = require('./payment.service');

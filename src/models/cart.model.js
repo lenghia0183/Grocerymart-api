@@ -14,6 +14,11 @@ const cartSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    status: {
+      type: String,
+      enum: ['active', 'paid', 'cancelled'],
+      default: 'active',
+    },
     totalMoney: {
       type: Number,
       required: true,
@@ -22,5 +27,27 @@ const cartSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+cartSchema.statics.recalculateTotalMoney = async function (cartId) {
+  const cart = await this.findById(cartId).populate({
+    path: 'cartDetails',
+    populate: {
+      path: 'productId',
+    },
+  });
+
+  let totalMoney = 0;
+
+  cart.cartDetails.forEach((cartDetail) => {
+    const selectedPrice = cartDetail.productId.prices.find((price) => price.weight === cartDetail.selectedWeight).price;
+
+    totalMoney += cartDetail.quantity * selectedPrice;
+  });
+
+  cart.totalMoney = totalMoney;
+  await cart.save();
+
+  return cart.totalMoney;
+};
 
 module.exports = mongoose.model('Cart', cartSchema);

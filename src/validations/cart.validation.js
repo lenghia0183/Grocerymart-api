@@ -22,6 +22,7 @@ const updateCartDetail = {
     cartDetailId: Joi.string().custom(objectId),
   }),
   body: Joi.object().keys({
+    cartId: Joi.string().required().custom(objectId),
     quantity: Joi.number().integer().min(1),
     selectedWeight: Joi.string().valid('100g', '500g', '1kg'),
   }),

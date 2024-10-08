@@ -5,7 +5,10 @@ const createOrder = {
   body: Joi.object().keys({
     userId: Joi.string().custom(objectId),
     cartId: Joi.string().custom(objectId),
-    address: Joi.string().custom(objectId),
+    // address: Joi.string().custom(objectId),
+    shippingFee: Joi.number().required(),
+    paymentMethod: Joi.string().required(),
+    paymentGateway: Joi.string().required(),
     note: Joi.string().allow(null, ''),
     status: Joi.string().allow(null, ''),
   }),

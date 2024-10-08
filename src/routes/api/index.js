@@ -39,6 +39,10 @@ const listRoutesApi = [
     path: '/comment',
     route: require('./comment.route'),
   },
+  {
+    path: '/order',
+    route: require('./order.route'),
+  },
 ];
 
 listRoutesApi.forEach((route) => {

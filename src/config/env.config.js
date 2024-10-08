@@ -28,6 +28,17 @@ const env = {
     privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
   },
 
+  momo: {
+    partnerCode: process.env.MOMO_PARTNER_CODE,
+    partnerName: process.env.MOMO_PARTNER_NAME,
+    accessKey: process.env.MOMO_ACCESS_KEY,
+    secretKey: process.env.MOMO_SECRET_KEY,
+    apiUrl: process.env.MOMO_API_URL || 'https://test-payment.momo.vn/gw_payment/transactionProcessor',
+    returnUrl: process.env.MOMO_RETURN_URL,
+    ipnUrl: process.env.MOMO_IPN_URL,
+    redirectUrl: process.env.MOMO_REDIRECT_URL,
+    storeId: process.env.MOMO_STORE_ID,
+  },
   image: {
     folderName: 'grocery-mart',
     typeAllow: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],

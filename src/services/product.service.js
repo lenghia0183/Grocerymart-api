@@ -9,7 +9,7 @@ const createProduct = async (productBody) => {
   return product;
 };
 
-const getProductById = async (userId, productId) => {
+const getProductById = async (productId, userId) => {
   const product = await Product.findById(productId)
     .select('-createdAt -updatedAt')
     .populate([
@@ -23,6 +23,7 @@ const getProductById = async (userId, productId) => {
       },
     ])
     .lean();
+
   if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, productMessage().NOT_FOUND);
   }

@@ -15,7 +15,7 @@ const orderSchema = mongoose.Schema(
     addressId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Address',
-      required: true,
+      // required: true,
     },
     note: {
       type: String,
@@ -26,7 +26,37 @@ const orderSchema = mongoose.Schema(
       enum: ['pending', 'confirmed', 'reject', 'shipping', 'success', 'canceled'],
       default: 'pending',
     },
+    totalAmount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    shippingFee: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    paymentMethod: {
+      type: String,
+      enum: ['COD', 'Bank'],
+      required: true,
+    },
+    paymentGateway: {
+      type: String,
+      enum: ['MoMo', 'ZaloPay', 'VnPay'],
+      required: function () {
+        return this.paymentMethod === 'Bank';
+      },
+    },
+    isPaid: {
+      type: Boolean,
+      default: false,
+      required: function () {
+        return this.paymentMethod === 'Bank';
+      },
+    },
   },
+
   {
     timestamps: true,
   },
