@@ -29,6 +29,7 @@ const getCartByUserId = async (queryRequest, userId) => {
     totalPage: Math.ceil(totalCartDetails / +limit),
     currentPage: +page,
     currentResult: cartDetails.length,
+    id: cart.id,
   };
 
   const results = { cartDetails, cartTotalMoney, ...detailResults };

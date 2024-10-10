@@ -39,6 +39,17 @@ const env = {
     redirectUrl: process.env.MOMO_REDIRECT_URL,
     storeId: process.env.MOMO_STORE_ID,
   },
+
+  zalo: {
+    appId: process.env.ZALO_APP_ID,
+    key1: process.env.ZALO_KEY1,
+    key2: process.env.ZALO_KEY2,
+    apiUrl: process.env.ZALO_API_URL,
+    redirectUrl: process.env.ZALO_REDIRECT_URL,
+    appUser: process.env.ZALO_APP_USER,
+    callbackUrl: process.env.ZALO_CALLBACK_URL,
+  },
+
   image: {
     folderName: 'grocery-mart',
     typeAllow: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],

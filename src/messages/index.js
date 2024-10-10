@@ -9,3 +9,4 @@ module.exports.cartMessage = require('./cart.message');
 module.exports.favoriteMessage = require('./favorite.message');
 module.exports.commentMessage = require('./comment.message');
 module.exports.orderMessage = require('./order.message');
+module.exports.paymentMessage = require('./payment.message');

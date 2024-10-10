@@ -97,5 +97,9 @@
     "findListSuccess": "Lấy danh sách đơn hàng thành công",
     "updateSuccess": "Cập nhật đơn hàng thành công",
     "notFound": "Không tìm thấy đơn hàng"
+  },
+  "payment": {
+    "paymentFailure": "Lỗi khi xử lý thanh toán.",
+    "paymentDescription": "{{userId}} - Thanh toán cho đơn hàng #{{orderId}}"
   }
 }

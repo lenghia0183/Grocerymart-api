@@ -132,7 +132,7 @@ const getProductByKeyWord = async (userId, requestQuery) => {
   if (userId) {
     const favorites = await getFavoriteListByUserId(userId);
     products.forEach((product) => {
-      product.isFavorite = favorites.productId.some((item) => item._id.toString() === product._id.toString());
+      product.isFavorite = favorites?.productId.some((item) => item._id.toString() === product._id.toString());
     });
   }
 

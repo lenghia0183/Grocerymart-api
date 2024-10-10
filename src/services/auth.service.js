@@ -6,7 +6,6 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { userMessage, authMessage } = require('../messages');
 const userService = require('./user.service');
-const logger = require('../config/logger.config');
 
 const login = async (email, password) => {
   const user = await userService.getUserByEmail(email);

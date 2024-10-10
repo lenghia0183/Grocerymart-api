@@ -43,6 +43,10 @@ const listRoutesApi = [
     path: '/order',
     route: require('./order.route'),
   },
+  {
+    path: '/payment',
+    route: require('./payment.route'),
+  },
 ];
 
 listRoutesApi.forEach((route) => {
