@@ -173,6 +173,13 @@ const updateCartDetail = async (cartDetailId, updateBody) => {
   return cartDetail;
 };
 
+const updateCartById = async (cartId, updateBody) => {
+  const cart = await getCartById(cartId);
+  Object.assign(cart, updateBody);
+  await cart.save();
+  return cart;
+};
+
 module.exports = {
   addProductToCart,
   getCartByUserId,
@@ -180,4 +187,5 @@ module.exports = {
   clearMyCart,
   updateCartDetail,
   getCartById,
+  updateCartById,
 };

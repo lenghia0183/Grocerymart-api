@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const orderService = require('../services/order.service');
+const { orderService, cartService } = require('../services');
 const { paymentMessage } = require('../messages');
 const ApiError = require('../utils/ApiError');
 const axios = require('axios');
@@ -89,6 +89,11 @@ const paymentWithMoMo = async (order) => {
     };
 
     const response = await axios(options);
+
+    if (response.data.resultCode === 0) {
+      await cartService.updateCartById(order?.cartId, { status: 'inactive' });
+    }
+
     return response.data;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, paymentMessage().PAYMENT_FAILURE);
@@ -135,6 +140,11 @@ const paymentWithZaloPay = async (order) => {
 
   try {
     const response = await axios.post(zaloConfig.endpoint, null, { params: orderData });
+
+    if (response.data.return_code === 1) {
+      await cartService.updateCartById(order.cartId, { status: 'inactive' });
+    }
+
     return response.data;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, paymentMessage().PAYMENT_FAILURE);
@@ -145,9 +155,7 @@ const callbackMoMo = async (callbackData) => {
   const { orderId, resultCode } = callbackData;
 
   if (resultCode === 0) {
-    const order = await orderService.getOrderById(orderId);
-    order.isPaid = true;
-    await order.save();
+    await orderService.updateOrderById(orderId, { isPaid: true });
   }
   return;
 };
@@ -167,9 +175,8 @@ const callBackZalo = async (callbackData) => {
     } else {
       let dataJson = JSON.parse(dataStr);
       let embedDataJson = JSON.parse(dataJson?.embed_data);
-      const order = await orderService.getOrderById(embedDataJson?.orderId);
-      order.isPaid = true;
-      await order.save();
+
+      await orderService.updateOrderById(embedDataJson?.orderId, { isPaid: true });
 
       result.return_code = 1;
       result.return_message = 'success';

@@ -41,7 +41,15 @@ const getOrderById = async (orderId) => {
   return order;
 };
 
+const updateOrderById = async (orderId, updateBody) => {
+  const order = await getOrderById(orderId);
+  Object.assign(order, updateBody);
+  await order.save();
+  return order;
+};
+
 module.exports = {
   createOrder,
   getOrderById,
+  updateOrderById,
 };
