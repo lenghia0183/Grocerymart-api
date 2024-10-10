@@ -28,20 +28,12 @@ const paymentWithMoMo = async (order) => {
   var ipnUrl = env.momo.ipnUrl;
   var requestType = 'payWithMethod';
   var amount = order?.totalAmount?.toString();
-  var orderId = partnerCode + new Date().getTime();
+  var orderId = order?.id;
   var requestId = orderId;
   var extraData = '';
   var orderGroupId = '';
   var autoCapture = true;
   var lang = 'vi';
-
-  //   console.log('amount', amount);
-  //   console.log('accessKey', accessKey);
-  //   console.log('secretKey', secretKey);
-  //   console.log('orderInfo', orderInfo);
-  //   console.log('partnerCode', partnerCode);
-  //   console.log('redirectUrl', redirectUrl);
-  //   console.log('ipnUrl', ipnUrl);
 
   const rawSignature =
     'accessKey=' +
@@ -149,6 +141,17 @@ const paymentWithZaloPay = async (order) => {
   }
 };
 
+const callbackMoMo = async (callbackData) => {
+  const { orderId, resultCode } = callbackData;
+
+  if (resultCode === 0) {
+    const order = await orderService.getOrderById(orderId);
+    order.isPaid = true;
+    await order.save();
+  }
+  return;
+};
+
 const callBackZalo = async (callbackData) => {
   let result = {};
 
@@ -184,4 +187,5 @@ module.exports = {
   paymentWithMoMo,
   paymentWithZaloPay,
   callBackZalo,
+  callbackMoMo,
 };

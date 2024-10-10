@@ -8,6 +8,12 @@ const callBackZalo = catchAsync(async (req, res) => {
   res.json(callbackResponse);
 });
 
+const callBackMoMo = catchAsync(async (req, res) => {
+  const callbackResponse = await paymentService.callbackMoMo(req.body);
+  res.json(callbackResponse);
+});
+
 module.exports = {
   callBackZalo,
+  callBackMoMo,
 };
