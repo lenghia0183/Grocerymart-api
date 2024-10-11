@@ -1,8 +1,102 @@
 const { Order } = require('../models');
 const { cartService } = require('../services');
-const { orderMessage, authMessage } = require('../messages');
+const { orderMessage } = require('../messages');
 const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
+
+const getOrdersByUserId = async (userId, requestQuery) => {
+  const { limit = 10, page = 1, sortBy = 'createdAt:desc', status } = requestQuery;
+
+  const sort = sortBy.split(',').map((sortItem) => {
+    const [field, option = 'desc'] = sortItem.split(':');
+    return { [field]: option === 'desc' ? -1 : 1 };
+  });
+
+  const sortObject = Object.assign(...sort);
+
+  const pageNumber = parseInt(page, 10);
+  const limitNumber = parseInt(limit, 10);
+
+  const skip = (pageNumber - 1) * limitNumber;
+
+  const filter = {
+    userId,
+  };
+  if (status) {
+    filter.status = status;
+  }
+
+  let orders = await Order.find(filter).populate('cartId').sort(sortObject).skip(skip).limit(limitNumber).lean();
+
+  orders = await Promise.all(
+    orders.map(async (order) => {
+      const cart = await cartService.getCartById(order.cartId);
+      order.products = cart.cartDetails;
+      delete order.cartId;
+      return order;
+    }),
+  );
+
+  const totalOrders = await Order.countDocuments({ userId });
+
+  const totalPages = Math.ceil(totalOrders / limitNumber);
+
+  const detailResult = {
+    limit: limitNumber,
+    totalResult: totalOrders,
+    totalPage: totalPages,
+    currentPage: pageNumber,
+    currentResult: orders.length,
+  };
+  const result = { orders, ...detailResult };
+
+  return result;
+};
+
+const getOrders = async (requestQuery) => {
+  const { limit = 10, page = 1, sortBy = 'createdAt:desc', status } = requestQuery;
+
+  const sort = sortBy.split(',').map((sortItem) => {
+    const [field, option = 'desc'] = sortItem.split(':');
+    return { [field]: option === 'desc' ? -1 : 1 };
+  });
+
+  const sortObject = Object.assign(...sort);
+
+  const pageNumber = parseInt(page, 10);
+  const limitNumber = parseInt(limit, 10);
+
+  const skip = (pageNumber - 1) * limitNumber;
+
+  const filter = {};
+  if (status) filter.status = status;
+
+  let orders = await Order.find(filter).populate('cartId').sort(sortObject).skip(skip).limit(limitNumber).lean();
+
+  orders = await Promise.all(
+    orders.map(async (order) => {
+      const cart = await cartService.getCartById(order.cartId);
+      order.products = cart.cartDetails;
+      delete order.cartId;
+      return order;
+    }),
+  );
+
+  const totalOrders = await Order.countDocuments();
+
+  const totalPages = Math.ceil(totalOrders / limitNumber);
+
+  const detailResult = {
+    limit: limitNumber,
+    totalResult: totalOrders,
+    totalPage: totalPages,
+    currentPage: pageNumber,
+    currentResult: orders.length,
+  };
+  const result = { orders, ...detailResult };
+
+  return result;
+};
 
 const createOrder = async (orderBody, userId) => {
   const paymentService = require('./payment.service');
@@ -87,4 +181,6 @@ module.exports = {
   getOrderById,
   updateOrderById,
   updateOrderStatus,
+  getOrdersByUserId,
+  getOrders,
 };

@@ -37,14 +37,20 @@ const getCartByUserId = async (queryRequest, userId) => {
 };
 
 const getCartById = async (cartId) => {
-  const cart = await Cart.findById(cartId).populate([
-    {
-      path: 'cartDetails',
-      populate: {
-        path: 'productId',
-      },
+  const cart = await Cart.findById(cartId).populate({
+    path: 'cartDetails',
+    populate: {
+      path: 'productId',
+      populate: [
+        {
+          path: 'manufacturerId',
+        },
+        {
+          path: 'categoryId',
+        },
+      ],
     },
-  ]);
+  });
   if (!cart) {
     throw new ApiError(httpStatus.NOT_FOUND, cartMessage().NOT_FOUND);
   }

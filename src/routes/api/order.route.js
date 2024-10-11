@@ -2,7 +2,7 @@ const express = require('express');
 const validate = require('../../middlewares/validate.middleware');
 const { orderController } = require('../../controllers');
 const { orderValidation } = require('../../validations');
-const { authenticate } = require('../../middlewares/auth.middleware');
+const { authenticate, authorize } = require('../../middlewares/auth.middleware');
 
 const orderRouter = express.Router();
 
@@ -13,5 +13,8 @@ orderRouter.put(
   validate(orderValidation.updateOrderStatus),
   orderController.updateOrderStatus,
 );
+
+orderRouter.get('/me', authenticate, validate(orderValidation.getOrdersByUserId), orderController.getOrdersByUserId);
+orderRouter.get('/', authenticate, authorize('admin'), validate(orderValidation.getOrders), orderController.getOrders);
 
 module.exports = orderRouter;

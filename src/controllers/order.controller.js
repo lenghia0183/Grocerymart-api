@@ -11,14 +11,20 @@ const createOrder = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, orderMessage().CREATE_SUCCESS, order));
 });
 
-const callBackZalo = catchAsync(async (req, res) => {
-  const callbackResponse = await orderService.callBackZalo(req.body);
-  res.json(callbackResponse);
+const getOrdersByUserId = catchAsync(async (req, res) => {
+  const userId = req[REQUEST_USER_KEY].id;
+  const orders = await orderService.getOrdersByUserId(userId, req.query);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_LIST_SUCCESS, orders));
+});
+
+const getOrders = catchAsync(async (req, res) => {
+  console.log('query', req.query);
+  const orders = await orderService.getOrders(req.query);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_LIST_SUCCESS, orders));
 });
 
 const updateOrderStatus = catchAsync(async (req, res) => {
   const user = req[REQUEST_USER_KEY];
-
   const status = req.body.status;
   const order = await orderService.updateOrderStatus(req.params.orderId, status, user);
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().UPDATE_SUCCESS, order));
@@ -26,6 +32,7 @@ const updateOrderStatus = catchAsync(async (req, res) => {
 
 module.exports = {
   createOrder,
-  callBackZalo,
+  getOrdersByUserId,
   updateOrderStatus,
+  getOrders,
 };

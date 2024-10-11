@@ -14,16 +14,22 @@ const createOrder = {
 
 const getOrders = {
   query: Joi.object().keys({
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+    sort: Joi.string(),
+    status: Joi.string().valid('pending', 'confirmed', 'reject', 'shipping', 'success', 'canceled'),
+  }),
+};
+
+const getOrdersByUserId = {
+  query: Joi.object().keys({
     keyword: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
-    lang: Joi.string(),
-    userId: Joi.string().custom(objectId),
-    cartId: Joi.string().custom(objectId),
-    address: Joi.string().allow(null, ''),
-    note: Joi.string().allow(null, ''),
-    status: Joi.string().allow(null, ''),
+    sort: Joi.string(),
+    status: Joi.string().valid('pending', 'confirmed', 'reject', 'shipping', 'success', 'canceled'),
   }),
 };
 
@@ -47,7 +53,6 @@ const updateOrder = {
   }),
   body: Joi.object()
     .keys({
-      userId: Joi.string().custom(objectId),
       cartId: Joi.string().custom(objectId),
       address: Joi.string().allow(null, ''),
       note: Joi.string().allow(null, ''),
@@ -56,17 +61,11 @@ const updateOrder = {
     .min(1),
 };
 
-const deleteOrder = {
-  params: Joi.object().keys({
-    orderId: Joi.string().custom(objectId),
-  }),
-};
-
 module.exports = {
   createOrder,
   getOrders,
   getOrder,
   updateOrder,
-  deleteOrder,
+  getOrdersByUserId,
   updateOrderStatus,
 };
