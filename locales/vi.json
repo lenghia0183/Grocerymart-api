@@ -96,7 +96,10 @@
     "createSuccess": "Tạo đơn hàng mới thành công",
     "findListSuccess": "Lấy danh sách đơn hàng thành công",
     "updateSuccess": "Cập nhật đơn hàng thành công",
-    "notFound": "Không tìm thấy đơn hàng"
+    "notFound": "Không tìm thấy đơn hàng",
+    "canNotCancelOrder": "Bạn không thể hủy đơn hàng này vì nó không còn ở trạng thái chờ duyệt",
+    "forbidden": "Bạn không có quyền cập nhật trạng thái đơn hàng này",
+    "invalidCart": "Giỏ hàng không hợp lệ"
   },
   "payment": {
     "paymentFailure": "Lỗi khi xử lý thanh toán.",

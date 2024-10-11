@@ -17,7 +17,7 @@ const zaloConfig = {
   callback_url: env.zalo.callbackUrl,
 };
 
-const paymentWithMoMo = async (order) => {
+const paymentWithMoMo = async (order, cart) => {
   var accessKey = env.momo.accessKey.toString();
   var secretKey = env.momo.secretKey.toString();
   var orderInfo = paymentMessage()
@@ -91,7 +91,8 @@ const paymentWithMoMo = async (order) => {
     const response = await axios(options);
 
     if (response.data.resultCode === 0) {
-      await cartService.updateCartById(order?.cartId, { status: 'inactive' });
+      cart.status = 'inactive';
+      await cart.save();
     }
 
     return response.data;
@@ -100,7 +101,7 @@ const paymentWithMoMo = async (order) => {
   }
 };
 
-const paymentWithZaloPay = async (order) => {
+const paymentWithZaloPay = async (order, cart) => {
   const embed_data = {
     redirecturl: zaloConfig.redirecturl,
     orderId: order?.id,
@@ -142,7 +143,8 @@ const paymentWithZaloPay = async (order) => {
     const response = await axios.post(zaloConfig.endpoint, null, { params: orderData });
 
     if (response.data.return_code === 1) {
-      await cartService.updateCartById(order.cartId, { status: 'inactive' });
+      cart.status = 'inactive';
+      await cart.save();
     }
 
     return response.data;

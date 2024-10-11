@@ -3,14 +3,12 @@ const { objectId } = require('./custom.validation');
 
 const createOrder = {
   body: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
     cartId: Joi.string().custom(objectId),
     // address: Joi.string().custom(objectId),
     shippingFee: Joi.number().required(),
     paymentMethod: Joi.string().required(),
     paymentGateway: Joi.string().required(),
     note: Joi.string().allow(null, ''),
-    status: Joi.string().allow(null, ''),
   }),
 };
 
@@ -35,6 +33,14 @@ const getOrder = {
   }),
 };
 
+const updateOrderStatus = {
+  params: Joi.object().keys({
+    orderId: Joi.string().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    status: Joi.string().valid('pending', 'confirmed', 'reject', 'shipping', 'success', 'canceled').required(),
+  }),
+};
 const updateOrder = {
   params: Joi.object().keys({
     orderId: Joi.string().custom(objectId),
@@ -62,4 +68,5 @@ module.exports = {
   getOrder,
   updateOrder,
   deleteOrder,
+  updateOrderStatus,
 };
