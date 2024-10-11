@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { provinceSchema, districtSchema, wardSchema } = require('./address.model');
 
 const orderSchema = mongoose.Schema(
   {
@@ -12,10 +13,23 @@ const orderSchema = mongoose.Schema(
       ref: 'Cart',
       required: true,
     },
-    addressId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Address',
-      // required: true,
+    address: {
+      province: {
+        type: provinceSchema,
+        required: true,
+      },
+      district: {
+        type: districtSchema,
+        required: true,
+      },
+      ward: {
+        type: wardSchema,
+        required: true,
+      },
+      street: {
+        type: String,
+        required: true,
+      },
     },
     note: {
       type: String,

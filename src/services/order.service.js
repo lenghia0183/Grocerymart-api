@@ -101,7 +101,7 @@ const getOrders = async (requestQuery) => {
 const createOrder = async (orderBody, userId) => {
   const paymentService = require('./payment.service');
 
-  const { cartId, addressId, note, paymentMethod, paymentGateway, shippingFee = 0 } = orderBody;
+  const { cartId, addressId, note, paymentMethod, paymentGateway, address, shippingFee = 0 } = orderBody;
   const cart = await cartService.getCartById(cartId);
 
   if (cart?.status === 'inactive') {
@@ -117,6 +117,7 @@ const createOrder = async (orderBody, userId) => {
     note,
     status: 'pending',
     shippingFee,
+    address,
     paymentMethod,
     paymentGateway: paymentMethod === 'Bank' ? paymentGateway : undefined,
     isPaid: paymentMethod === 'Bank' ? false : undefined,
@@ -140,8 +141,13 @@ const getOrderById = async (orderId) => {
   return order;
 };
 
-const updateOrderById = async (orderId, updateBody) => {
+const updateOrderById = async (orderId, updateBody, user) => {
   const order = await getOrderById(orderId);
+
+  if (order.userId.toString() !== user?.id) {
+    throw new ApiError(httpStatus.FORBIDDEN, orderMessage().FORBIDDEN);
+  }
+
   Object.assign(order, updateBody);
   await order.save();
   return order;

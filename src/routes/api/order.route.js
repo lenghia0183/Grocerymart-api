@@ -8,7 +8,7 @@ const orderRouter = express.Router();
 
 orderRouter.post('/', authenticate, validate(orderValidation.createOrder), orderController.createOrder);
 orderRouter.put(
-  '/:orderId',
+  'change-status/:orderId',
   authenticate,
   validate(orderValidation.updateOrderStatus),
   orderController.updateOrderStatus,
@@ -16,5 +16,6 @@ orderRouter.put(
 
 orderRouter.get('/me', authenticate, validate(orderValidation.getOrdersByUserId), orderController.getOrdersByUserId);
 orderRouter.get('/', authenticate, authorize('admin'), validate(orderValidation.getOrders), orderController.getOrders);
+orderRouter.put('/:orderId', authenticate, validate(orderValidation.updateOrderById), orderController.updateOrderById);
 
 module.exports = orderRouter;

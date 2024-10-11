@@ -30,9 +30,16 @@ const updateOrderStatus = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().UPDATE_SUCCESS, order));
 });
 
+const updateOrderById = catchAsync(async (req, res) => {
+  const user = req[REQUEST_USER_KEY];
+  const order = await orderService.updateOrderById(req.params.orderId, req.body, user);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().UPDATE_SUCCESS, order));
+});
+
 module.exports = {
   createOrder,
   getOrdersByUserId,
   updateOrderStatus,
   getOrders,
+  updateOrderById,
 };
