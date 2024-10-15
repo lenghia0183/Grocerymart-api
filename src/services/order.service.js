@@ -165,8 +165,26 @@ const getOrderById = async (orderId) => {
   return order;
 };
 
-const getOderByIdV2 = async (orderId) => {
-  const order = await Order.findById(orderId);
+const getOderByIdV2 = async (userId, orderId) => {
+  const order = await Order.findById(orderId).populate({
+    path: 'cartDetails',
+    populate: {
+      path: 'productId',
+      populate: [
+        {
+          path: 'manufacturerId',
+        },
+        {
+          path: 'categoryId',
+        },
+      ],
+    },
+  });
+
+  if (order.userId.toString() !== userId) {
+    throw new ApiError(httpStatus.FORBIDDEN, orderMessage().FORBIDDEN);
+  }
+
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, orderMessage().NOT_FOUND);
   }

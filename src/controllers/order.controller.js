@@ -18,7 +18,8 @@ const getOrdersByUserId = catchAsync(async (req, res) => {
 });
 
 const getOrderById = catchAsync(async (req, res) => {
-  const order = await orderService.getOderByIdV2(req.params.orderId);
+  const userId = req[REQUEST_USER_KEY].id;
+  const order = await orderService.getOderByIdV2(userId, req.params.orderId);
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_SUCCESS, order));
 });
 
