@@ -55,6 +55,12 @@ const getOrder = {
   }),
 };
 
+const getOrderById = {
+  params: Joi.object().keys({
+    orderId: Joi.string().custom(objectId),
+  }),
+};
+
 const updateOrderStatus = {
   params: Joi.object().keys({
     orderId: Joi.string().custom(objectId),
@@ -96,4 +102,5 @@ module.exports = {
   updateOrderById,
   getOrdersByUserId,
   updateOrderStatus,
+  getOrderById,
 };

@@ -3,8 +3,8 @@ const { objectId } = require('./custom.validation');
 
 const createComment = {
   body: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
-    productId: Joi.string().custom(objectId),
+    productId: Joi.string().custom(objectId).required(),
+    cartDetailId: Joi.string().custom(objectId).required(),
     content: Joi.string(),
     rating: Joi.number().required(),
   }),

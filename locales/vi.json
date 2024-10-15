@@ -75,6 +75,12 @@
     "notFound": "Không tìm thấy sản phẩm trong giỏ hàng của bạn",
     "maxQuantity": "Số lượng sản phẩm không được vượt quá 100"
   },
+  "cartDetail": {
+    "findSuccess": "Tìm kiếm chi tiết giỏ thành công",
+    "updateSuccess": "Cập nhật chi tiết hàng thành công",
+    "deleteSuccess": "Xóa chi tiết giỏ hàng thành công",
+    "notFound": "Không tìm thấy sản phẩm trong giỏ hàng của bạn"
+  },
   "favorite": {
     "addToListSuccess": "Thêm sản phẩm vào danh sách yêu thích thành công",
     "deleteSuccess": "Xóa sản phẩm khỏi danh sách yêu thích thành công",

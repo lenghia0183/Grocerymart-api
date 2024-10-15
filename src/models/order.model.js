@@ -8,11 +8,14 @@ const orderSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    cartId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Cart',
-      required: true,
-    },
+
+    cartDetails: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CartDetail',
+        required: true,
+      },
+    ],
     address: {
       province: {
         type: provinceSchema,

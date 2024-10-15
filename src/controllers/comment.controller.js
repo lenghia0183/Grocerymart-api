@@ -19,7 +19,6 @@ const getCommentsByProductId = catchAsync(async (req, res) => {
 
 const deleteCommentById = catchAsync(async (req, res) => {
   const userId = req[REQUEST_USER_KEY]._id;
-
   const comment = await commentService.deleteCommentById(userId, req.params.commentId);
   res.status(httpStatus.OK).json(response(httpStatus.OK, commentMessage().DELETE_SUCCESS, comment));
 });
@@ -27,7 +26,6 @@ const deleteCommentById = catchAsync(async (req, res) => {
 const updateCommentById = catchAsync(async (req, res) => {
   const userId = req[REQUEST_USER_KEY]._id;
   const comment = await commentService.updateCommentById(userId, req.params.commentId, req.body);
-
   res.status(httpStatus.OK).json(response(httpStatus.OK, commentMessage().UPDATE_SUCCESS, comment));
 });
 

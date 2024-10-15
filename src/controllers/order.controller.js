@@ -17,6 +17,11 @@ const getOrdersByUserId = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_LIST_SUCCESS, orders));
 });
 
+const getOrderById = catchAsync(async (req, res) => {
+  const order = await orderService.getOderByIdV2(req.params.orderId);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_SUCCESS, order));
+});
+
 const getOrders = catchAsync(async (req, res) => {
   console.log('query', req.query);
   const orders = await orderService.getOrders(req.query);
@@ -42,4 +47,5 @@ module.exports = {
   updateOrderStatus,
   getOrders,
   updateOrderById,
+  getOrderById,
 };

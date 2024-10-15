@@ -2,7 +2,6 @@ const { Comment, Product } = require('../models');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { commentMessage } = require('../messages');
-const ApiFeature = require('../utils/ApiFeature');
 
 const calculateAndUpdateProductRating = async (productId) => {
   const comments = await Comment.find({ productId });
@@ -26,8 +25,10 @@ const getCommentById = async (commentId) => {
 };
 
 const createComment = async (userId, commentBody) => {
-  const comment = await Comment.create({ userId, ...commentBody });
+  const { cartDetailService } = require('../services');
 
+  const comment = await Comment.create({ userId, ...commentBody });
+  await cartDetailService.updateCartDetailById(commentBody.cartDetailId, { commentStatus: 'commented' });
   await calculateAndUpdateProductRating(comment.productId);
   return comment;
 };

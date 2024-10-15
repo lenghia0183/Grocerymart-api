@@ -1,4 +1,4 @@
-const { Order } = require('../models');
+const { Order, Cart } = require('../models');
 const { cartService } = require('../services');
 const { orderMessage } = require('../messages');
 const ApiError = require('../utils/ApiError');
@@ -26,16 +26,25 @@ const getOrdersByUserId = async (userId, requestQuery) => {
     filter.status = status;
   }
 
-  let orders = await Order.find(filter).populate('cartId').sort(sortObject).skip(skip).limit(limitNumber).lean();
-
-  orders = await Promise.all(
-    orders.map(async (order) => {
-      const cart = await cartService.getCartById(order.cartId);
-      order.products = cart.cartDetails;
-      delete order.cartId;
-      return order;
-    }),
-  );
+  let orders = await Order.find(filter)
+    .populate({
+      path: 'cartDetails',
+      populate: {
+        path: 'productId',
+        populate: [
+          {
+            path: 'manufacturerId',
+          },
+          {
+            path: 'categoryId',
+          },
+        ],
+      },
+    })
+    .sort(sortObject)
+    .skip(skip)
+    .limit(limitNumber)
+    .lean();
 
   const totalOrders = await Order.countDocuments({ userId });
 
@@ -71,16 +80,34 @@ const getOrders = async (requestQuery) => {
   const filter = {};
   if (status) filter.status = status;
 
-  let orders = await Order.find(filter).populate('cartId').sort(sortObject).skip(skip).limit(limitNumber).lean();
+  let orders = await Order.find(filter)
+    .populate({
+      path: 'cartDetails',
+      populate: {
+        path: 'productId',
+        populate: [
+          {
+            path: 'manufacturerId',
+          },
+          {
+            path: 'categoryId',
+          },
+        ],
+      },
+    })
+    .sort(sortObject)
+    .skip(skip)
+    .limit(limitNumber)
+    .lean();
 
-  orders = await Promise.all(
-    orders.map(async (order) => {
-      const cart = await cartService.getCartById(order.cartId);
-      order.products = cart.cartDetails;
-      delete order.cartId;
-      return order;
-    }),
-  );
+  // orders = await Promise.all(
+  //   orders.map(async (order) => {
+  //     const cart = await cartService.getCartById(order.cartId);
+  //     order.products = cart.cartDetails;
+  //     delete order.cartId;
+  //     return order;
+  //   }),
+  // );
 
   const totalOrders = await Order.countDocuments();
 
@@ -102,17 +129,14 @@ const createOrder = async (orderBody, userId) => {
   const paymentService = require('./payment.service');
 
   const { cartId, addressId, note, paymentMethod, paymentGateway, address, shippingFee = 0 } = orderBody;
-  const cart = await cartService.getCartById(cartId);
 
-  if (cart?.status === 'inactive') {
-    throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().INVALID_CART);
-  }
+  const cart = await Cart.findById(cartId);
 
   const totalOrderMoney = +cart?.totalMoney + +shippingFee;
 
   const order = await Order.create({
     userId,
-    cartId,
+    cartDetails: cart.cartDetails,
     addressId,
     note,
     status: 'pending',
@@ -134,6 +158,14 @@ const createOrder = async (orderBody, userId) => {
 };
 
 const getOrderById = async (orderId) => {
+  const order = await Order.findById(orderId);
+  if (!order) {
+    throw new ApiError(httpStatus.NOT_FOUND, orderMessage().NOT_FOUND);
+  }
+  return order;
+};
+
+const getOderByIdV2 = async (orderId) => {
   const order = await Order.findById(orderId);
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, orderMessage().NOT_FOUND);
@@ -189,4 +221,5 @@ module.exports = {
   updateOrderStatus,
   getOrdersByUserId,
   getOrders,
+  getOderByIdV2,
 };

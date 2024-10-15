@@ -118,12 +118,12 @@ const addProductToCart = async (cartBody, userId) => {
 };
 
 const clearMyCart = async (userId) => {
-  const cart = await Cart.findOneAndDelete({ userId });
+  const cart = await Cart.findOneAndDelete({ userId, status: 'active' });
   if (cart) {
     await CartDetail.deleteMany({ _id: { $in: cart.cartDetails } });
+    cart.totalMoney = 0;
+    await cart.save();
   }
-  cart.totalMoney = 0;
-  await cart.save();
 };
 
 const deleteCartDetail = async (cartDetailId, cartId) => {

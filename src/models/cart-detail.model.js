@@ -21,6 +21,12 @@ const cartDetailSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    commentStatus: {
+      type: String,
+      enum: ['not-allowed', 'allowed', 'commented'],
+      default: 'not-allowed',
+      required: true,
+    },
   },
   { timestamps: true },
 );
